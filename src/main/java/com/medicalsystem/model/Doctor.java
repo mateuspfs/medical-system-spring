@@ -4,26 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import com.medicalsystem.enums.Gender;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.br.CPF;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "patients")
+@Table(name = "doctors")
 @Data
-public class Patient extends BaseEntity {
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+public class Doctor extends BaseEntity {
     @NotNull
     private String name;
     @NotNull
-    private String code;
-    @NotNull
-    private String dateOfBirth;
-    @NotNull
     private String phone;
+    @NotNull
+    private String document;
 
     @Column(name = "cpf", unique = true)
     @CPF
@@ -34,4 +28,9 @@ public class Patient extends BaseEntity {
     @Email
     @NotNull
     private String email;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "specialty_id")
+    private Specialty specialty;
 }
