@@ -3,6 +3,7 @@ package com.medicalsystem.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import com.medicalsystem.enums.Gender;
 import lombok.EqualsAndHashCode;
@@ -19,11 +20,14 @@ public class Patient extends BaseEntity {
     @NotNull
     private String name;
     @NotNull
-    private String code;
-    @NotNull
     private String dateOfBirth;
     @NotNull
     private String phone;
+
+    @Column(name = "code", unique = true)
+    @NotNull
+    @Size(max = 8, message = "O código deve ter no máximo 8 caracteres")
+    private String code;
 
     @Column(name = "cpf", unique = true)
     @CPF

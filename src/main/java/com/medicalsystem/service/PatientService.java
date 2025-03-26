@@ -1,25 +1,31 @@
 package com.medicalsystem.service;
 
+import com.medicalsystem.dto.request.PatientRequestDTO;
+import com.medicalsystem.dto.response.PatientResponseDTO;
 import com.medicalsystem.model.Patient;
 import com.medicalsystem.repository.PatientRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/patient")
+@Service
 public class PatientService {
+    private final PatientRepository _repository;
+    private final ModelMapper _modelMapper;
 
-    private PatientRepository repository;
-
-    public PatientService(PatientRepository repository) {
-        this.repository = repository;
+    public PatientService(PatientRepository repository, ModelMapper modelMapper) {
+        this._repository = repository;
+        this._modelMapper = modelMapper;
     }
 
-    public Patient getPatient(Long id) {
-        return repository.getReferenceById(id);
+    public PatientResponseDTO getbyId(Long id) {
+        Patient patient = _repository.findById(id).orElse(null);
+        if (patient == null) return null;
+
+        return _modelMapper.map(patient, PatientResponseDTO.class);
     }
 
-    public Patient createPatient(Patient patient) {
-        return repository.save(patient);
+    public Patient create(PatientRequestDTO dto) {
+        Patient patient = _modelMapper.map(dto, Patient.class);
+        return _repository.save(patient);
     }
 }
