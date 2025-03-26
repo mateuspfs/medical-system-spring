@@ -8,9 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @OpenAPIDefinition(info = @Info(title = "Medical System Api", version = "1", description = ""), servers = { @Server(url = "/")})
 @SpringBootApplication
-public class MedicalSystemApplication {
-
+public class Application {
 	public static void main(String[] args) {
-		SpringApplication.run(MedicalSystemApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }
